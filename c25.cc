@@ -85,6 +85,7 @@ int main()
                     //计算两种产品各自投资多少获益较多
                     if(n >= line4[i] + line4[j])
                     {
+                        //各按最大投
                         if(line2[i] * line4[i] + line2[j] * line4[j] > max_worth)
                         {
                             max_worth = line2[i] * line4[i] + line2[j] * line4[j];
@@ -96,6 +97,7 @@ int main()
                         }
                         continue;
                     }
+                    //分别投多少合适，取小于n保证至少也投了另一产品
                     for(int a = 1, b = n - a; a < n; ++a, b = n -a)
                     {
                         if(a <= line4[i] && b <= line4[j])
