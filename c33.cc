@@ -3,19 +3,7 @@
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
-#include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
+#include <sstream>
 using namespace std;
  
 
@@ -26,47 +14,44 @@ int dichotomy(vector<int> nums)
 {
     int left = 0;
     int right = 0;
+    //取为砖最多的仓库
     for (size_t i = 0; i < nums.size(); ++i) 
     {  
         right = max(nums[i], right);
     }
     int result = 0;
-    while (true) 
+    while (left <= right) 
     {
-        if(left > right) 
-        {
-            return result;
+        int mid = (left + right) / 2;
+        int time_total = 0;
+        //每次进入循环都将默认为是合适的目标值
+        bool flag = true;
+        for (size_t i = 0; i < nums.size(); ++i) 
+        {  
+            time_total += nums[i] / mid;
+            if(nums[i] % mid > 0) 
+            {
+                time_total += 1;
+            }
+            if (time_total > 8) 
+            {
+                //要将目标值设大一点
+                flag = false;
+            }
         }
-        else 
+        if(flag)
         {
-            int mid = (left + right)/2;
-            int time_total = 0;
-            //每次进入循环都将默认为是合适的目标值
-            bool flag = true;
-            for (size_t i = 0; i < nums.size(); ++i) 
-            {  
-                time_total += nums[i] / mid;
-                if(nums[i] % mid > 0) 
-                {
-                    time_total += 1;
-                }
-                if (time_total > 8) 
-                {
-                    //要将目标值设大一点
-                    flag = false;
-                }
-            }
-            if(flag)
-            {
-                result = mid;
-                right = mid-1;
-            }
-            else
-            {
-                left = mid + 1;
-            }
+            result = mid;
+            //目标值是否还可以更小
+            right = mid - 1;
+        }
+        else
+        {
+            //要的时间过多，将目标值置大一点
+            left = mid + 1;
         }
     }
+    return result;
 }
  
 int main()
@@ -82,10 +67,10 @@ int main()
     }
     
     //情况1和情况2
-    if(nums.size() >8)
+    if(nums.size() > 8)
     {
         //干不完
-        cout<<-1;
+        cout << "-1\n";
     }
     else if(nums.size() == 8)
     {
@@ -99,6 +84,7 @@ int main()
     } 
     else 
     {
+        //仓库多余8个
         cout << dichotomy(nums) << "\n"; 
     }
     return 0;

@@ -37,7 +37,16 @@ int main()
 }
 
 
-
+int get_bitadd(int parm)
+{
+    int total_num = 0;
+    while(parm)
+    {
+        total_num += parm % 10;
+        parm /= 10;
+    }
+    return total_num;
+}
 
 
 void DFS(graph* g)
@@ -63,7 +72,7 @@ void DFS(graph* g)
     while(stack_.size())
     {						 
 keep:
-        if( x+1 < g->x && visit[x+1][y] == false && try_.top() < 1 && x+1+y <= g->k) 
+        if( x+1 < g->x && visit[x+1][y] == false && try_.top() < 1 && get_bitadd(x+1) + get_bitadd(y) <= g->k) 
         {	
             //找到其临近点且还未访问 	
             stack_.push({x+1, y});
@@ -77,7 +86,7 @@ keep:
             x = x+1;
             goto keep;		
         }						 
-        else if( x-1 >= 0 && visit[x-1][y] == false && try_.top() < 2 && x-1+y <= g->k)
+        else if( x-1 >= 0 && visit[x-1][y] == false && try_.top() < 2 && get_bitadd(x-1) + get_bitadd(y) <= g->k)
         {
             //找到其临近点且还未访问 	
             stack_.push({x-1, y});
@@ -92,7 +101,7 @@ keep:
             goto keep;		
 
         }
-        else if( y+1 < g->y && visit[x][y+1] == false && try_.top() < 3 && x+y+1 <= g->k)
+        else if( y+1 < g->y && visit[x][y+1] == false && try_.top() < 3 && get_bitadd(x) + get_bitadd(y+1) <= g->k)
         {
             //找到其临近点且还未访问 	
             stack_.push({x, y+1});
@@ -107,7 +116,7 @@ keep:
             goto keep;		
 
         }
-        else if( y-1 >= 0 && visit[x][y-1] == false && try_.top() < 4 && x+y-1 <= g->k)
+        else if( y-1 >= 0 && visit[x][y-1] == false && try_.top() < 4 && get_bitadd(x) + get_bitadd(y-1) <= g->k)
         {
             //找到其临近点且还未访问 	
             stack_.push({x, y-1});
