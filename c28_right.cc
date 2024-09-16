@@ -3,15 +3,10 @@
 #include<algorithm>
 #include<iomanip>
 #include<string>
-#include<exception> 
-#include<map>
-#include<unordered_map>
-#include<set>
 #include<climits>
 using namespace std;
  
 int minimumDifference(vector<int> & nums) {
-        // 取出一半元素
         int n = nums.size();
         int differen = INT_MAX;
         vector<int> choose(n, 0);

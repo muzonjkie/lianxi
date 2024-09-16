@@ -1,12 +1,9 @@
 #include<iostream>
-#include <utility>
 #include<vector>
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
+#include<sstream>
 using namespace std;
  
   
@@ -15,33 +12,47 @@ int main()
 {
     vector<int> nums;
     int temp;
-    while(cin >> temp)
+    string str;
+    getline(cin, str, '\n');
+    istringstream iss(str);
+    while(iss >> temp)
     {
         nums.push_back(temp);
     }
-    int count = 0;
  
     //可以用set去重，但我要用位图
-    long* bitmap = new ;
-    int i=0;
-    while(true){
-      if(i>=nums.size()){
-        break;
-      } else {
-        zones[nums[i]]+=1;
-      }
-      i+=1;
+    long long* bitmap = new long long[1 << 7]{0};
+
+    int pos, bit_pos;
+    for(size_t i = 0; i < nums.size(); ++i)
+    {
+        //数组的每一个元素所占的字节数为8，64个比特
+        pos = nums[i] / 64;
+        //在该元素中的第几个比特
+        bit_pos = nums[i] % 64;
+        if((long long)1 << bit_pos & bitmap[pos])
+        {
+            //已经出现过
+        }
+        else
+        {
+            //未出现过
+            bitmap[pos] |= (long long)1 << bit_pos;
+        }
     }
- 
-    for (int j = 0; j < 1000; j++) {
-        if (zones[j] <= 0) {
-          continue;
-        } else {
-          int total = ceil((double)zones[j] / (j+1));
-          count += total * (j+1);
+    int man = 0;
+    for(size_t i = 0; i < 1000; ++i)
+    {
+        int pos = i / 64;
+        int bit_pos = i % 64;
+        if((long long)1 << bit_pos & bitmap[pos])
+        {
+            //已经出现过
+            man += (i + 1);
         }
     }
  
-    cout<<count;
+    cout << man << "\n";
+    delete [] bitmap;
     return 0;
 }
