@@ -37,8 +37,7 @@ bool dfs(int x, int y, int endx, int endy, int oil, vector< vector<int> > martix
         //走到终点
         return true;
     }
-
-    //是否有效；四个方向
+    //从本点到下一点消耗油
     if(martix[x][y] == -1)
     {
         oil = 100;
@@ -51,6 +50,8 @@ bool dfs(int x, int y, int endx, int endy, int oil, vector< vector<int> > martix
             return false;
         }
     }
+    //是否走到了终点
+    //是否有效；四个方向
     vector<bool> result(4, false);
     visited[x][y] = 1;
     if(x + 1 < (int)visited[0].size() && martix[x + 1][y] != 0)

@@ -6,9 +6,6 @@
 #include <sstream>
 using namespace std;
  
-
- 
-  
  
 int dichotomy(vector<int> nums)
 {

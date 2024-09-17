@@ -22,6 +22,7 @@ template <>
 }
 
 int main() {
+    //任务数，有多少时间
     int N, T;
     cin >> N >> T;
 
@@ -34,6 +35,7 @@ int main() {
 
     //任务必须按分数较高的排前面，且分数相同时按最晚完成时间大的排前面，不然会出现任务个数都超过可用时间
     sort(tasks.begin(), tasks.end(), std::less());
+    //某个时间点能够获得的最大分数
     vector<int> dp(T + 1, 0);
 
     //遍历每个任务
