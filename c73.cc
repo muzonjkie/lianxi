@@ -1,24 +1,16 @@
 #include<iostream>
-#include <utility>
 #include<vector>
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
 #include<map>
-#include<cmath>
-#include<numeric>
 #include<set>
+#include<numeric>
 #include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
 using namespace std;
- 
 
- 
+
+
 vector<string> split_str(string params_str, string split_char) {
     vector<string> p;
     while (params_str.find(split_char) != string::npos) {
@@ -32,10 +24,12 @@ vector<string> split_str(string params_str, string split_char) {
 
 
 
-
-struct Comp
+namespace std
 {
-    bool comp(const pair<string, vector<int> > & lhs, const pair<string, vector<int> > & rhs) 
+template<>
+struct less< pair<string, vector<int>> >
+{
+    bool operator()(const pair<string, vector<int> > & lhs, const pair<string, vector<int> > & rhs) const 
     {
         //若访问次数相等，按时间较早的排前面
         if (lhs.second[1] == rhs.second[1]) 
@@ -45,15 +39,15 @@ struct Comp
         return lhs.second[1] < rhs.second[1];
     }
 };
+}
 
- 
 int main()
 {
     int total_size, ops;
     cin >> total_size >> ops;
     cin >> std::ws;
     //对vector，文件大小，访问次数，最新访问时间
-    map<string, vector<int>, Comp> files;
+    map<string, vector<int> > files;
     int total_value = 0;
     int times = 1;
     for (int i = 0; i < ops; ++i)
@@ -77,7 +71,6 @@ int main()
                 //没有该文件
                 continue;
             }
-            
         } 
         //put
         else {
@@ -87,33 +80,57 @@ int main()
                 int file_size = stoi(operation[2]);
                 //需调度
                 if (total_value + file_size > total_size)
-                {
+                { 
+                    //辅助
+                    vector< pair<string, vector<int>> > list_;
+                    for (auto x : files) {
+                        list_.push_back(x);
+                    }
+                    sort(list_.begin(), list_.end(), std::less< pair<string, vector<int>> >());
                     //files已经有序，删掉第一个，若还不够空间，再删    
-                }
-                if (total_value + file_size <= m) {
+                    while(total_value + file_size > total_size)
+                    {
+                        vector<int> info = list_[0].second;
+                        total_value -= info[0];
+                        //文件表中移除
+                        files.erase(list_.front().first);
+                        list_.erase(list_.begin());
+                    }
+                    //得到足够空间
                     total_value += file_size;
-                    files[operations[1]] = vector<int> {file_size, 0, times};
-                    times += 1;
+                    files[operation[1]] = vector<int> {file_size, 0, times};
+                    ++times;
+                }
+                else if (total_value + file_size <= total_size) 
+                {
+                    total_value += file_size;
+                    files[operation[1]] = vector<int> {file_size, 0, times};
+                    ++times;
                 }
             }
         }
     }
-    if (files.size()==0) {
-        cout<<"NONE";
-    } else {
-        vector<string> list;
-        for (auto x : files) {
-            list.push_back(x.first);
+    if (files.size() == 0)
+    {
+        cout << "NONE\n";
+    } 
+    else
+    {
+        set<string> list_;
+        for (auto & x : files) 
+        {
+            list_.insert(x.first);
         }
-        sort(list.begin(), list.end());
-        for (int i = 0; i < list.size(); i++) {
-            cout<<list[i];
-            if(i!=list.size()-1){
-                cout<<",";
+        for (auto & x : list_) 
+        {
+            cout << x;
+            if(x !=  *--list_.end())
+            {
+                cout << ",";
             }
         }
-        
+        cout << "\n";
     }
- 
+
     return 0;
 }
