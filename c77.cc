@@ -29,6 +29,20 @@ vector<string> split_str(string params_str, string delim) {
     p.push_back(params_str);
     return p;
 }
+
+
+namespace std
+{
+    template<>
+    struct less<string>
+    {
+        bool operator() (const string & lhs, const string & rhs) const
+        {
+            //前缀相同长度长的在前面
+            return lhs.size() > rhs.size();
+        }
+    };
+}
  
 int main()
 {
@@ -36,7 +50,8 @@ int main()
     string input_str1, input_str2;
     getline(cin, input_str1, '\n');
     getline(cin, input_str2, '\n');
-    vector<string> temp1 = split_str(input_str1,",");
+    //start:将待处理字符串的 , ; . 全部消除
+    vector<string> temp1 = split_str(input_str1, ",");
     vector<string> temp2;
     //真正需要分词的
     vector<string> target_words;
@@ -55,80 +70,53 @@ int main()
         {
             target_words.push_back(temp[j]);
         }
-    }
+    }//end:待处理字符串
+
     //词典
     vector<string> words = split_str(input_str2, ",");
-    vector<int> target_len;
-    for (size_t i=0;i<target_words.size();i++){
-        target_len.push_back(target_words[i].size());
-    }
-    
-    vector<int> words_len;
-    for (int i=0;i<words.size();i++){
-        words_len.push_back(words[i].size());
-    }
-    
+    //前缀相同的，把长度大的放前面
+    unordered_map<char, vector<string> > word_index;
     string result = "";
-    int k=0;
-    while(true){
-        if(k>=target_words.size()){
-            break;
-        } else {
-            vector<int> dp; 
-            for(int i=0;i<=target_len[k];i++){
-                dp.push_back(0);
-            }
-            dp[target_len[k]] = 1; 
-            for (int i = target_len[k]; i >= 0; i--) { 
-                for (int j=0;j< words.size();j++) { 
-                    if(i + words[j].size() <= target_len[k]) {
-                        string split_str=target_words[k].substr(i, words[j].size());
-                        if (dp[i + words[j].size()]==1 && split_str==words[j]) { 
-                            dp[i] = 1; 
-                            
-                            break;
-                        }
-                    }
-                    
+    for (size_t i = 0; i < words.size(); ++i)
+    {
+        word_index[ words[i][0] ].push_back(words[i]);
+    }
+
+    for(size_t i = 0; i < target_words.size(); ++i)
+    {
+        size_t left = 0;
+        size_t right = target_words[i].size();
+        //处理一个字符串
+        while(left < right)
+        {
+            //每个待分词的字符串的开头
+            char start = target_words[i][left];
+            vector<string> possible = word_index[start];
+            //将可能的字符串按长度大的在前面
+            sort(possible.begin(), possible.end(), std::less<string>());
+            size_t j = 0;
+            for(; j < possible.size(); ++j)
+            {
+                size_t len = possible[j].size();
+                string temp = target_words[i].substr(left, len);
+                if(temp == possible[j])
+                {
+                    result += temp + ",";
+                    //下一个切割的起始位置
+                    left += len;
+                    break;
                 }
             }
- 
-            if (dp[0]!=0) { 
-                string temp_res = "";
-                int i = 0;
-                while (true) {
-                    if(i >= target_len[k]){
-                        break;
-                    } else {
-                        int pos = -1; 
-                        for (int j=0;j< words.size();j++) { 
-                            if (i + words_len[j] <= target_len[k]){
-                                string split_str=target_words[k].substr(i, words_len[j]);
-                                if(split_str == words[j] 
-                                    && dp[i + words_len[j]]==1 && words_len[j] > pos) {
-                                    pos = words_len[j];
-                                }
-                            }
-                        }
-                        temp_res += target_words[k].substr(i, pos) + ",";
-                        i += pos;
-                    }
-                    
-                }
-                result += temp_res;
-            } else {
-                for (int i=0;i<target_words[k].size();i++){
-                    cout<<target_words[k][i];
-                    if(i!=target_words[k].size()-1){
-                        cout<<",";
-                    }
-                }
-                return 0;
+            //词典中没有以该字符开头的单词，或者有该单词开头但没有匹配的单词
+            if(j == possible.size())
+            {
+                result += start;
+                result += ',';
+                ++left; 
             }
         }
-        k+=1;
     }
     
-    cout<<result.substr(0, result.size()-1);
+    cout << result.substr(0, result.size()-1) << "\n";
 	return 0;
 }
