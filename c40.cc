@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <climits>
+#include <vector>
+#include <map>
 
 using namespace std;
 
@@ -12,12 +14,18 @@ using namespace std;
 
 typedef struct 
 {
-    unsigned int edges[maxsize][maxsize]; 		//邻接矩阵，存放权值 
-    unsigned int v, e;					//顶点数，边数 
+    int edges[maxsize][maxsize]; 		//邻接矩阵，存放权值 
+    int v, e;					//顶点数，边数 
 }graph;						//图的结构体 
 
+//存点到点之间的最短距离
+int dist[maxsize][maxsize] = {{0}};			
+int result_min = INT_MAX;
+
 void GraphCreat(graph* g);
-unsigned int Dijkstra(graph* g);
+void Floyd(graph* g);
+void dfs(int pre, int now, int sum, int all, vector<bool> & visited );
+
 
 
 
@@ -29,131 +37,112 @@ int main()
     //unsigned设为-1即可获得最大值
     memset(g.edges, -1, sizeof(g.edges));
     GraphCreat(&g); 
-    printf("\n");
-    unsigned int result = Dijkstra(&g);
-    cout << result << "\n";
+    printf("--------\n");
+    Floyd(&g);
+    cout << result_min << "\n";
     return 0;	
 }
 
+//---------------难死鼠鼠啦！ 
+
+
+
 void GraphCreat(graph* g)
 {		
+    //初始为无穷
+    for(int i = 0; i <= g->v; ++i)
+    {
+        for(int j = 0; j <= g->v; ++j)
+        {
+            g->edges[i][j] = INT_MAX;
+        }
+    }
+    //自己到自己无距离
+    for(int k = 0; k <= g->v; ++k)
+    {
+        g->edges[k][k] = 0;
+    }
     //0处代表快递站
     //现在输入快递站到各客户的距离		
-    for(unsigned int i = 1; i <= g->v; ++i)
+    //将较大的编号映射到小范围
+    map<int, int> relations;
+    for(int i = 1; i <= g->v; ++i)
     {
-        unsigned int toclient, gap;
+        int toclient, gap;
         cin >> toclient >> gap;
+        relations[toclient] = i;
         //当然可以互相到达
-        g->edges[0][toclient] = gap;
-        g->edges[toclient][0] = gap;
+        g->edges[0][i] = gap;
+        g->edges[i][0] = gap;
     }
     //客户到客户间的距离
-    for(unsigned int i = 1; i <= g->e; ++i)
+    for(int i = 1; i <= g->e; ++i)
     {
-        unsigned int A, B, gap;
+        int A, B, gap;
         cin >> A >> B >> gap;
+        int from = relations[A];
+        int to = relations[B];
         //当然可以互相到达
-        g->edges[A][B] = gap;
-        g->edges[B][A] = gap;
+        g->edges[from][to] = gap;
+        g->edges[to][from] = gap;
     }
 }
 
 
 
 
-unsigned int Dijkstra(graph* g)
+
+void Floyd(graph* g)
+{		 			
+    for(int i = 0; i <= g->v; ++i)
+    {									
+        for(int j = 0; j <= g->v; ++j)
+        {			
+            //初始化权值路径表；节点前驱表 
+            dist[i][j] = g->edges[i][j];			
+            //初始每点前驱皆为自身 
+        }				
+    }		
+
+    //加入节点k作为中转时 
+    for(int k = 0; k <= g->v; ++k)
+    {					
+        //起始点编号 
+        for(int i = 0; i <= g-> v; ++i)
+        {				
+            //终点编号 
+            for(int j = 0; j <= g->v; ++j)
+            {			
+                //如果加入中转点后有更短的路径可以到达终点 
+                if(dist[i][j] > ( dist[i][k] + dist[k][j] ) )
+                {	
+                    //那么以此节点为中转 
+                    dist[i][j] = dist[i][k] + dist[k][j];	
+                }		
+            }
+        }
+    }
+    vector<bool> visited(g->v + 1, false);
+    dfs(0, 0, 0, g->v, visited);
+}
+
+void dfs(int pre, int now, int sum, int all, vector<bool> & visited )
 {
-    //记录路径长度；记录是否已加入路径 
-    unsigned int dist[maxsize], final[maxsize];		
-    unsigned min_ = UINT_MAX;
-    //前驱节点信息 
-    int path[maxsize];						
-    //从快递站开始
-    int n = 0;
-    for(unsigned int i = 1; i <= g->v; ++i)
-    {					
-        //存放某一顶点到其它点的路径长度
-        dist[i] = g->edges[n][i];				 
-        //此时lowcost里面的权值是属于n号顶点的 
-        path[i] = n;							
-        //初始化为全部没有加入路径 
-        final[i] = false;			
-    }			
-    //n加入路径
-    final[n]=true;						
-    //n无前驱 
-    path[n]=-1;							
-    //待送客户
-    unsigned int k;
-    //上次送的客户
-    unsigned int pri_k;
-    //用于第一次送快递时前驱为0的情况
-    bool flag = false;
-    unsigned sumweight = 0;
-    //逐个查看哪些客户还没送
-    for(unsigned int i = 1; i <= g->v; ++i)
-    {					
-        //非常重要！！！否则会出错！
-        min_ = UINT_MAX;							
-        for(unsigned int j = 1; j <= g->v; ++j)
-        {					
-            //找出最短路径且还没有加入路径 
-            if(dist[j] < min_ && final[j] != true)
-            {	
-                min_= dist[j];
-                //标记本次加入的顶点是哪个 
-                k = j;	
-            }						
-        }
-        //标记已加入路径 
-        final[k] = true;						
-        //如果不是从快递站到的，那就是客户到客户的路，那就要减掉该前驱的已走过的路
-        if(path[k] != 0)
-        {
-            //当前节点的前驱
-            unsigned int now = path[k];
-            //当前节点前驱的前驱
-            unsigned int temp = path[now];
-            while(temp != 0)
-            {
-                sumweight -= g->edges[temp][now];
-                now = temp;
-                temp = path[temp];
-            }
-            //当未进入循环时temp已经为0
-            sumweight -= g->edges[temp][now];
-        }
-        else
-        {
-            /* pri_k为前一次循环加入的节点；现在选中要加入的点是从快递站出发的，
-            也就是说上一次加入节点后就回到了快递站，dist[pri_k]也是回到快递站最近的路*/
-            
-            //第一次送快递的特殊
-            if(flag)
-            {
-                sumweight += dist[pri_k];
-            }
-        }
-        //这个包含了已经走过的路，所以前面的while循环要减掉
-        sumweight += dist[k];
-        //现在及以后都不是第一次送快递了
-        flag = true;
-        //记录本次加入的节点
-        pri_k = k;
-        for(unsigned h = 1; h <= g->v; ++h)
-        {
-            //看看加入k节点后有没有更短的路可以到达新的节点 
-            if(dist[h] > (g->edges[k][h] + dist[k]) && final[h] != true)
-            {
-                dist[h] = dist[k] + g->edges[k][h];		
-                //标记更短路径是通过k达成的             
-                path[h] = k;
-            }						
-        }
+    //送到最后一个用户
+    if(now == all)
+    {
+        result_min = min(result_min, sum + dist[pre][0]);
+        return;
     }
-    //送完最后一份快递后结束循环，但现在要回到快递站
-    sumweight += dist[k];
 
-    return sumweight;
+    for(int i = 1; i <= all; ++i)
+    {
+        if(visited[i])
+        {
+            continue;
+        }
+        visited[i] = true;
+        dfs(i, now + 1, sum + dist[pre][i], all, visited);
+        visited[i] = false;
+    }
 }
-
