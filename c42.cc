@@ -6,12 +6,12 @@
 #include<string.h>
 using namespace std;
 
-vector<int> split(string params_str, string split_char)
+vector<int> split(string params_str, string delim)
 {
     vector<int> p;
-    while (params_str.find(split_char) != string::npos) 
+    while (params_str.find(delim) != string::npos) 
     {
-        int found = params_str.find(split_char);
+        int found = params_str.find(delim);
         p.push_back(stoi(params_str.substr(0, found)));
         params_str = params_str.substr(found + 1);
     }    
@@ -30,6 +30,7 @@ int main()
 {
     int n;
     cin >> n >> std::ws;
+    //分配内存的起始和大小
     vector< pair<int, int> > memorys;
     string input_str;
     while (getline(cin, input_str)) 
@@ -47,8 +48,10 @@ int main()
 
     int length = memorys.size();
     bool flag = true;
+    //空闲内存的起始和大小
     vector< pair<int, int> > free_;
-    for (int i = 0; i < length; ++i)
+    //第二片已分配开始
+    for (int i = 1; i < length; ++i)
     {
         int x = memorys[i].first;
         int y = memorys[i].second;
@@ -58,31 +61,31 @@ int main()
             flag = false;  
             break;  
         }
-        if(i > 0)  
+        //不在别的申请范围内
+        int start = memorys[i-1].first;
+        int end = memorys[i-1].second;
+        //非法输入
+        if( ! (x >= start + end) ) 
         {
-            //不在别的申请范围内
-            int start = memorys[i-1].first;
-            int end = memorys[i-1].second;
-            if( ! (x >= start + end) ) 
-            {
-                flag = false;  
-                break;  
-            }
-            if( x > start + end ) 
-            {
-                //中间那就有空闲
-                free_.push_back({start + end, x - (start + end) });
-            }
+            flag = false;  
+            break;  
+        }
+        //若等于，则说明这两已分配内存是连续的
+        if( x > start + end ) 
+        {
+            //中间那就有空闲
+            free_.push_back({start + end, x - (start + end) });
         }
     }
-    if(memorys[length - 1].first + memorys[length - 1].second != 100)
+    //对最后一块已分配内存
+    if(memorys[length - 1].first + memorys[length - 1].second < 100)
     {
         //还有空闲
         int start = memorys[length-1].first;
         int end = memorys[length-1].second;
         free_.push_back({start + end, 100 - (start + end) });
     }
-
+    //输入合法
     if (flag) 
     {
         int offset = -1;
@@ -94,6 +97,7 @@ int main()
                 break;
             }
         }
+        //若没有足够空间，也是输出-1
         cout << offset << "\n";
     }
     else

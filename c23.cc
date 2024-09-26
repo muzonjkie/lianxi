@@ -1,8 +1,8 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
 using namespace std;
  
  
@@ -22,14 +22,11 @@ vector<string> split_str(string params_str)
  
 bool comp1(pair<string, string> lhs, pair<string, string> rhs)
 {
-    if(lhs.first != rhs.first)
-    {
-        return lhs.first < rhs.first;
-    }
-    else 
+    if(lhs.first == rhs.first)
     {
         return lhs.second < rhs.second;
     }
+    return lhs.first < rhs.first;
 }
  
 int main()

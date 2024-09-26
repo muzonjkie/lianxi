@@ -1,20 +1,9 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <map>
+#include <string.h>
 using namespace std;
  
 

@@ -1,10 +1,8 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 #include <sstream>
 #include <algorithm>
 using namespace std;
- 
-
  
   
  
@@ -37,29 +35,9 @@ int main()
     }
     cout << "\n";
 
-    for(auto & k : A )
-    {
-        cout << k <<" ";
-    }
-    cout << "\n";
-    for(auto & k : B )
-    {
-        cout << k <<" ";
-    }
-
     sort(A.begin(), A.end(), std::less());
     sort(B.begin(), B.end(), std::less());
 
-    cout << "\n";
-    for(auto & k : A )
-    {
-        cout << k <<" ";
-    }
-    cout << "\n";
-    for(auto & k : B )
-    {
-        cout << k <<" ";
-    }
 
     int sumA = 0, sumB = 0;
 
@@ -71,10 +49,10 @@ int main()
     }
 
     int changeA = 0, changeB =0;
-    int mid = (sumB - sumA) / 2;
+    int change = (sumB - sumA) / 2;
     for(size_t i = 0; i < A.size(); ++i)
     {
-        int temp = A[i] + mid;
+        int temp = A[i] + change;
         int low = 0, high = B.size() - 1;
         while(low <= high)
         {

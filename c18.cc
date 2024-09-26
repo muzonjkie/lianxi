@@ -1,7 +1,5 @@
-#include<iostream>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
+#include <iostream>
+#include <algorithm>
 #include <sstream>
 #include <vector>
 using namespace std;

@@ -1,7 +1,4 @@
-#include<stdio.h>						
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
+#include <string.h>
 #include <iostream>
 #include <sstream>
 #include <stack>
@@ -19,8 +16,7 @@ typedef struct {
 
 
 void GraphCreat(graph*g,int edge[][maxsize]);
-void PrintfWeight(graph*g);
-void  DFS(graph* g);
+void DFS(graph* g);
 
 int main()
 {

@@ -135,8 +135,10 @@ void dfs(int pre, int now, int sum, int all, vector<bool> & visited )
         return;
     }
 
+    //从第一个用户开始送
     for(int i = 1; i <= all; ++i)
     {
+        //送过该用户了
         if(visited[i])
         {
             continue;

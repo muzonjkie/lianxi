@@ -1,26 +1,18 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<string.h>
-#include<cmath>
-#include <regex>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 
 
 void merge(vector<pair<int, int>> meetings) 
 {
-    sort(meetings.begin(), meetings.end(), [](pair<int, int> & lhs, pair<int, int> & rhs){
-         return lhs.first == rhs.second ? lhs.second < rhs.second : lhs.first < rhs.first;
+    //优先结束晚的排后面
+    sort(meetings.begin(), meetings.end(),
+         [](pair<int, int> & lhs, pair<int, int> & rhs)
+         {
+            return lhs.second == rhs.second ? lhs.first < rhs.first : lhs.second < rhs.second;
          });
-
-    /* for(auto & i : meetings) */
-    /* { */
-    /*     cout << i.first << " " << i.second << "\n"; */
-    /* } */
-
-    cout << "\n";
-
     vector<pair<int, int>> result;
     size_t i = 0, j = 1;
     for(; j < meetings.size(); ++i, ++j)
@@ -29,6 +21,7 @@ void merge(vector<pair<int, int>> meetings)
         {
             meetings[i].second = meetings[j].second;
             meetings.erase( meetings.begin() + j);
+            //继续处理该新的pair
             --i;
             --j;
         }
@@ -53,7 +46,7 @@ void merge(vector<pair<int, int>> meetings)
 
 int main()
 {
-    vector<pair<int, int>> meetings = {{3,4}, {2,5},{7,14}, {13,18}};
+    vector<pair<int, int>> meetings = {{2,7}, {1,4},{14,18}, {7,9}};
 
     merge(meetings);
     return 0;

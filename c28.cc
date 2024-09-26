@@ -1,95 +1,74 @@
-// Online C++ compiler to run C++ program online
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<iomanip>
-#include<string>
-#include<exception> 
-#include<map>
-#include<unordered_map>
-#include<set>
-#include<climits>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <string>
+#include <climits>
 using namespace std;
  
-int minimumDifference(vector<int>& nums) {
-        // 取出一半元素
-        int nn = nums.size(), n = nn / 2;
-        //情况key，选出那n个，目前的和，已选与未选
-        unordered_map<int, set<int> > mps;
+int minimumDifference(vector<int> & nums) 
+{
+        int n = nums.size();
+        int differen = INT_MAX;
+        vector<int> choose(n, 0);
         //n个字节能表示的数的范围
-        for(int i = 0; i < (1 << n); ++i)
+        //从第一次能够选半数个开始
+        for(int i = (1 << n / 2) -1; i < (1 << n); ++i)
         {
-            int key = 0, now = 0;
+            int now = 0;
+            vector<int> temp(n, 0);
+            int oneque = 0;
             //查看每位是否为1，为1表示选了该元素
-            for(int j = 0; j < n; ++ j)
+            for(int j = 0; j < n; ++j)
             {
                 if(i & (1 << j))
                 {
-                    ++key;
+                    //1队选了
+                    ++oneque;
+                    temp[j] = 1;
                     now += nums[j];
                     //表示选了该元素
                 }
                 else
                 {
-                    --key;
                     now -= nums[j];
                     //表示没选该元素
                 }
             }
-            //选择个数一样的会在同一个set
-            mps[key].insert(now);
+            //选了一半才能
+            if(oneque == n / 2)
+            {
+                if(abs(now) < differen)
+                {
+                    //更新最小差距并记录是选了哪几个
+                    differen = abs(now);
+                    choose = temp;
+                }
+            }
         }
-        int ans = INT_MAX;
-        for(int i = 0; i < (1 << n); ++i)
+
+        for(size_t i = 0; i < choose.size(); ++i)
         {
-            int key = 0, now = 0;
-            for(int j = 0; j < n; ++j)
+            if(choose[i] != 0)
             {
-                //表示选中
-                if(i & (1 << j))
-                {
-                    //这样才能使得选了足够的队员对应于mps中key对应的set
-                    -- key;
-                    // -是因为lower_bound能顺利找到且在abs里取负才是真的和前面循环选中合到一起
-                    //若取正的话在mps的对应key的set中全部满足查找条件
-                    now -= nums[j + n];
-                }
-                else
-                {
-                    ++ key;
-                    now += nums[j + n];
-                }
-            }
-            if(mps.find(key) != mps.end())
-            {
-                //找到不大于的第一个，且一定是同符号的
-                auto it = mps[key].lower_bound(now);
-                if(it != mps[key].end())
-                {
-                    ans = min(ans, abs(*it - now));
-                }
-                //
-                if(it != mps[key].begin())
-                {
-                    -- it;
-                    ans = min(ans, abs(*it - now));
-                }
+                cout << "choose" << i+1 << "号\n";
             }
         }
-        return ans;
+        return differen;
     }
  
 int main() {
     //输入
     vector<int> picked;
     int N = 10;
-    while(N) {
+    while(N)
+    {
         int score;
-        cin>>score;
+        cin >> score;
         picked.push_back(score);
-        N--;
+        --N;
     }
-    cout << minimumDifference(picked);
+    cout << "最小差距：" << minimumDifference(picked) << "\n";
  
 	return 0;
 }

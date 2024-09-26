@@ -8,8 +8,9 @@ vector<int> split(string params_str)
 {
     vector<int> p;
     istringstream iss(params_str);
-    int out = 0;
-    while (iss >> out) {
+    int out;
+    while (iss >> out)
+    {
         p.push_back(out);
     }    
     return p;

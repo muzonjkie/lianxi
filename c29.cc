@@ -12,10 +12,10 @@ template <>
 {
     bool operator() (const pair<int, int> & lhs, const pair<int, int> & rhs)
     {
-        if(lhs.second == rhs.second)
-        {
-            return lhs.first > rhs.first;
-        }
+        /* if(lhs.second == rhs.second) */
+        /* { */
+        /*     return lhs.first > rhs.first; */
+        /* } */
         return lhs.second > rhs.second;
     }
 };
@@ -27,17 +27,17 @@ int main() {
     cin >> N >> T;
 
     vector<pair<int, int>> tasks(N);
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i < N; ++i) 
+    {
         int SLA, V;
         cin >> SLA >> V;
         tasks[i] = {SLA, V};
     }
 
-    //任务必须按分数较高的排前面，且分数相同时按最晚完成时间大的排前面，不然会出现任务个数都超过可用时间
-    sort(tasks.begin(), tasks.end(), std::less());
+    //任务必须按分数较高的排前面
+    sort(tasks.begin(), tasks.end(), std::less< pair<int, int> >());
     //某个时间点能够获得的最大分数
     vector<int> dp(T + 1, 0);
-
     //遍历每个任务
     for (const auto & task : tasks) 
     {
@@ -50,18 +50,21 @@ int main() {
             if (j <= T) 
             {
                 //前面的最大分数加上
-                dp[j] = max(dp[j], dp[j - 1] + V);
+                if(dp[j] == 0)
+                {
+                    dp[j] = V;
+                    break;
+                }
             }
         }
     }
-
+    int result = 0;
     //所有的任务的最晚完成时间都小于可用时间
-    while(0 == dp[T])
+    for(int i = 1; i <= T; ++i)
     {
-        --T;
+        result += dp[i];
     }
-    cout << dp[T] << endl;
-
+    cout << result << "\n";
     return 0;
 }
 

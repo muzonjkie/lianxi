@@ -1,12 +1,9 @@
 #include<iostream>
 #include<vector>
-#include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
 #include<map>
 #include<cmath>
-#include<unordered_map>
 #include<numeric>
 #include<set>
 using namespace std;

@@ -1,13 +1,7 @@
-#include<stdio.h>						
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
 #include <iostream>
 #include <sstream>
-#include <stack>
 #include <vector>
 #include <queue>
-#include <set>
 #include <utility>
 #include <algorithm>
 
@@ -25,7 +19,7 @@ typedef struct {
 
 
 
-void GraphCreat(graph*g,int edge[][maxsize]);
+void GraphCreat(graph* g);
 vector< vector< int> > BFS(graph* g, int x, int y);
 void BFS(graph* g);
 
@@ -44,21 +38,8 @@ int main()
     istringstream is(row);
     is >> g.x >> g.y;
 
-    //这里是因为列数必须是常量值
-    //以-1表示该处没有马
-    int(* edge)[maxsize] = (int(*)[maxsize])calloc(g.x, maxsize * sizeof(int));
-    for(int i = 0; i < g.x; ++i)
-    {
-        string line;
-        getline(cin, line);
-        istringstream iss(line);
-        for(int j = 0; j < g.y; ++j)
-        {
-            iss >> edge[i][j]; 
-        }
-    }
 
-    GraphCreat(&g, edge);
+    GraphCreat(&g);
 
     vector< vector< vector<int> > > res;
     //每个起始点都试过
@@ -96,6 +77,7 @@ int main()
                     /* printf("第%d种结果：%d", pos, *temp.begin()); */
                     printf("第%d种结果：", pos);
                     int tmp = 0;
+                    //移动到该位置的所有动的步数
                     for(auto & i : temp)
                     {
                         tmp += i;
@@ -119,16 +101,20 @@ int main()
     {
         cout << "最后结果：" << max << "\n";
     }
-    delete [] edge;
     return 0;
 }
 
-void GraphCreat(graph* g, int edge[][maxsize]) {
-    int i, j;
-    for (i = 0; i < g->x; ++i) {
-        for (j = 0; j < g->y; ++j) {		
-            g->edges[i][j] = edge[i][j];
-        }		//注意数组是从零开始的 
+void GraphCreat(graph* g) 
+{
+    //用-1来代替.吧
+    int temp;
+    for (int i = 0; i < g->x; ++i) 
+    {
+        for (int j = 0; j < g->y; ++j) 
+        {		
+            cin >> temp;
+            g->edges[i][j] = temp;
+        }		
     }
 }
 
@@ -151,6 +137,7 @@ vector< vector< int> > BFS(graph* g, int x, int y)
     result[x][y] = 0;
 
     int n = g->edges[x][y];
+    //已动的步数
     int k = 1;
 
     pair<int, int> last = queue_.back();
@@ -178,7 +165,7 @@ vector< vector< int> > BFS(graph* g, int x, int y)
                     {
                         result[x + movx ][y + movy ] = k;
                     }
-                
+                    //每加入一个节点便更新为最新    
                     newlast = queue_.back();
                 }
             }
@@ -195,11 +182,12 @@ vector< vector< int> > BFS(graph* g, int x, int y)
             break;
         }
     }
+    //应该可以不动吧？
     //这是一步都动不了的马才会到这
-    if(! queue_.size())
-    {
-        result[x][y] = INF;
-    }
+    /* if(! queue_.size()) */
+    /* { */
+    /*     result[x][y] = INF; */
+    /* } */
     return result;
 }
 

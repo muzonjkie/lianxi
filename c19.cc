@@ -1,7 +1,4 @@
-#include<stdio.h>						
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
+#include <string.h>
 #include <iostream>
 #include <sstream>
 #include <stack>
@@ -21,6 +18,10 @@ typedef struct {
 void GraphCreat(graph*g,int edge[][maxsize]);
 vector< stack< pair<int, int> > > DFS(graph* g);
 
+int result = 0;
+void dfs(int y, int x, int endy, int endx, vector< vector<int> > & matrix);
+
+
 int main()
 {
     graph g;
@@ -30,52 +31,63 @@ int main()
     is >> g.x >> g.y;
 
     //这里是因为列数必须是常量值
-    int(* edge)[maxsize] = (int(*)[maxsize])calloc(g.x, maxsize * sizeof(int));
-    for(int i = 0; i < g.x; ++i)
+//    int(* edge)[maxsize] = (int(*)[maxsize])calloc(g.x, maxsize * sizeof(int));
+//    for(int i = 0; i < g.x; ++i)
+//    {
+//        string line;
+//        getline(cin, line);
+//        istringstream iss(line);
+//        for(int j = 0; j < g.y; ++j)
+//        {
+//            iss >> edge[i][j]; 
+//        }
+//    }
+//
+//    GraphCreat(&g, edge);
+    int temp;
+    vector< vector<int> > matrix(g.y, vector<int>(g.x));
+    for(int i = 0; i < g.y; ++i)
     {
-        string line;
-        getline(cin, line);
-        istringstream iss(line);
-        for(int j = 0; j < g.y; ++j)
+        for(int j = 0; j < g.x; ++j)
         {
-            iss >> edge[i][j]; 
+            cin >> temp;
+            matrix[i][j] = temp;
         }
     }
-
-    GraphCreat(&g, edge);
-
+    dfs(0, 0, g.y -1, g.x-1, matrix);
+    cout << result;
     //若要实现到确定某点的所有路径，麻烦一点的办法是仍然遍历完所有可能，
     //但是得到结果后，对所有结果出栈直到栈顶是目标地点，然后去重（这里的DFS的
     //实现是会存在重复的可能的；但如果只是对对角线元素的话是不会重复的，如现在）
-    vector<stack<pair<int, int>>> real_res = DFS(&g);
-    //每个起始点都试过
+//    vector<stack<pair<int, int>>> real_res = DFS(&g);
+//    //每个起始点都试过
+//
+//    int pos = 1;
+//    for(size_t i = 0; i < real_res.size(); ++i)
+//    {
+//        printf("第%d种路径：", pos);
+//        stack< pair<int, int> > temp;
+//        while(real_res[i].size())
+//        {
+//            temp.push(real_res[i].top());
+//            real_res[i].pop();
+//        }
+//
+//        while(temp.size())
+//        {
+//            cout << "(" << temp.top().first <<"," 
+//                 << temp.top().second << ")";
+//            if(1 != temp.size())
+//            {
+//                cout << "-->";
+//            }
+//            temp.pop();
+//        }
+//        cout << "\n\n";
+//        ++pos;
+//    }
 
-    int pos = 1;
-    for(size_t i = 0; i < real_res.size(); ++i)
-    {
-        printf("第%d种路径：", pos);
-        stack< pair<int, int> > temp;
-        while(real_res[i].size())
-        {
-            temp.push(real_res[i].top());
-            real_res[i].pop();
-        }
-
-        while(temp.size())
-        {
-            cout << "(" << temp.top().first <<"," 
-                 << temp.top().second << ")";
-            if(1 != temp.size())
-            {
-                cout << "-->";
-            }
-            temp.pop();
-        }
-        cout << "\n\n";
-        ++pos;
-    }
-
-    delete [] edge;
+    /* delete [] edge; */
     return 0;
 }
 
@@ -174,5 +186,21 @@ keep:
     return path_;
 }
 
+void dfs(int y, int x, int endy, int endx, vector< vector<int> > & matrix)
+{
+    if(y == endy && x == endx)
+    {
+        ++result;
+        return;
+    }
 
+    if(y + 1 <= endy && matrix[y+1][x] != 1)
+    {
+        dfs(y+1, x, endy, endx, matrix);
+    }
+    if(x + 1 <= endx && matrix[y][x+1] != 1)
+    {
+        dfs(y, x+1, endy, endx, matrix);
+    }
+}
 

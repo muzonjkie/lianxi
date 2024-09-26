@@ -17,7 +17,8 @@ int main()
     //丢弃那个换行符，不要多输空格
     cin.ignore();
     vector<string> words;
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i)
+    {
         string s;
         getline(cin, s);
         words.push_back(s);
@@ -55,6 +56,7 @@ int main()
     //每个单词
     for(size_t i = 0; i < words.size(); ++i)
     {
+        //原来是说对拼写某个单词已有的字符每个只能用一次
         int less_ = 0;
         for(size_t j = 0; j < words[i].size(); ++j)
         {
@@ -67,24 +69,6 @@ int main()
             {
                 //缺少的字符
                 less_ = less_ + (word_map[i][k] - char_count_map[k]);
-            }
-        }
-        //不else是因为剩余的字符里可能还够组成另一个单词
-        if(less_ <= char_count)
-        {
-            ++output_count;
-            for(size_t k = 0; k < word_map[i].size(); ++k)
-            {
-                if(word_map[i][k] > char_count_map[k])
-                {
-                    char_count_map[k] = char_count_map[k] - word_map[i][k];
-                    //万能字符一定够用
-                    while(char_count_map[k] < 0 )
-                    {
-                        ++ char_count_map[k];
-                        -- char_count; 
-                    }
-                }
             }
         }
     }

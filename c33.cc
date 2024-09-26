@@ -1,8 +1,8 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
 #include <sstream>
 using namespace std;
  
@@ -81,7 +81,7 @@ int main()
     } 
     else 
     {
-        //仓库多余8个
+        //仓库小于8个
         cout << dichotomy(nums) << "\n"; 
     }
     return 0;

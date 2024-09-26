@@ -1,11 +1,14 @@
 #include <iostream>
+#include <time.h>
 
-int findMinK(int x, int y, int cntx, int cnty) 
+using namespace std;
+
+long findMinK(long x, long y, long cntx, long cnty) 
 {
-    int k = 0;
-    int gox = 0;
-    int goy = 0;
-    int nice = 0;
+    long k = 0;
+    long gox = 0;
+    long goy = 0;
+    long nice = 0;
 
     while (gox < cntx || goy < cnty) 
     {
@@ -39,13 +42,16 @@ int findMinK(int x, int y, int cntx, int cnty)
     return k;
 }
 
-int main() {
-    int x, y, cntx, cnty;
-    std::cin >> x >> y >> cntx >> cnty;
+int main()
+{
+    long x, y, cntx, cnty;
+    cin >> x >> y >> cntx >> cnty;
 
-    int k = findMinK(x, y, cntx, cnty);
-    std::cout << k << std::endl;
-
+    time_t start = clock();
+    long k = findMinK(x, y, cntx, cnty);
+    time_t end = clock();
+    cout << k << endl;
+    printf("用时：%f毫秒\n", (double)(end - start)/(double)1000);
     return 0;
 }
 

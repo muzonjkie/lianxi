@@ -16,7 +16,7 @@ typedef struct{
 
 int Findparent(int i, int parent[]);
 int Edgecreat(edge e[], int parent[]);
-void Kruskal(edge e[], int parent[], int n, int* psumWeight);
+void Kruskal(edge e[], int parent[], int v, int n);
 
 int main()
 {
@@ -25,9 +25,7 @@ int main()
     //边集合
     edge e[maxsize];
     //总权值
-    int sumWeight = 0;
     int v;
-    printf("请输入基站数\n");
     scanf("%d",&v);
     for(int i = 1; i <= v; ++i) 
     {
@@ -37,26 +35,7 @@ int main()
 
     //基站边数
     int n = Edgecreat(e, parent);
-    
-    Kruskal(e, parent, n, &sumWeight);	
-
-    set<int> succ;
-    //各基站是否在同一集合
-    for(int i = 1; i <= v; ++i)
-    {
-        int tmp = Findparent(i, parent);
-        succ.insert(tmp);
-    }
-    
-    //这才是连接到同一集合，即各站之间皆可通信
-    if(1 == succ.size())
-    {
-        printf("总权值为%d\n", sumWeight);
-    }
-    else
-    {
-        cout << -1;
-    }
+    Kruskal(e, parent, v, n);	
     return 0;
 }
 
@@ -66,20 +45,16 @@ int Edgecreat(edge e[], int parent[])
 {			
     int i;
     int num;
-    printf("请输入具备直连的基站数(边数)\n");
-    scanf(" %d ",&num);
-    //这里注意\n的消除，不然下面那个收到就出问题了
-
+    cin >> num >> std::ws;
 
     //建立的边都是能够直连的
     for(i = 1; i <= num; ++i)
     {
         string line;
-        getline(cin, line);
+        getline(cin, line, '\n');
         istringstream iss(line);
-        iss >> e[i].s >> e[i].d >> e[i].weight;
         int connection = 0;
-        iss >> connection;
+        iss >> e[i].s >> e[i].d >> e[i].weight >> connection;
         if(connection)
         {
             //两个节点已在同一集合
@@ -101,7 +76,7 @@ int Findparent(int i, int parent[])							//找到其代表，即该集合的根
 }
 
 
-void Kruskal(edge e[], int parent[], int n, int* psumWeight)
+void Kruskal(edge e[], int parent[], int v, int n)
 {
     int i,j,x,y;
     for(i = 2; i <= n; ++i)
@@ -121,16 +96,34 @@ void Kruskal(edge e[], int parent[], int n, int* psumWeight)
         }
     }
     
+    int sumWeight = 0;
     //边数，即可直连的
     for(i = 1; i <= n; ++i)
     {
-        x=Findparent(e[i].s, parent);
-        y=Findparent(e[i].d, parent);
+        x = Findparent(e[i].s, parent);
+        y = Findparent(e[i].d, parent);
         if(x != y)
         {							//找到各自集合的根节点是否是同一个 
             parent[x] = y;						//合并两个集合 
-            *psumWeight += e[i].weight;	 
+            sumWeight += e[i].weight;	 
         }
+    }
+    set<int> succ;
+    //各基站是否在同一集合
+    for(int i = 1; i <= v; ++i)
+    {
+        int tmp = Findparent(i, parent);
+        succ.insert(tmp);
+    }
+
+    //这才是连接到同一集合，即各站之间皆可通信
+    if(1 == succ.size())
+    {
+        printf("总权值为%d\n", sumWeight);
+    }
+    else
+    {
+        cout << -1;
     }
 }
 

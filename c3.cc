@@ -1,10 +1,5 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<string.h>
+#include <iostream>
 #include <string>
-#include <ctype.h>
-#include<cmath>
 using namespace std;
  
  
@@ -20,13 +15,13 @@ bool isUpper(char ch)
 {
 	return ch >= 'A' && ch <= 'Z';
 }
- 
+
 // 判断字符是否为数字
 bool isDigit(char ch)
 {
-	return ch >= '0' && ch <= '9';
+    return ch >= '0' && ch <= '9';
 }
- 
+
 void  handle(string str)
 {
     int contains_big_char = 0;
@@ -36,55 +31,49 @@ void  handle(string str)
     string passwd = "";
     for(size_t i = 0; i <str.size(); ++i)
     {
-        if(i>=str.size() - 1)
+        if (str[i] != '<') 
         {
-            if (contains_number && contains_small_char && contains_big_char && contains_special_char && passwd.size() >= 7) 
+            passwd += str[i];
+            if (isDigit(str[i] )) 
             {
-                cout<<passwd + ",true";
-            } else 
-            {
-                cout<<passwd + ",false";
+                ++ contains_number;
             }
-            break;
-        }
+            else if (isLower(str[i] )) 
+            {
+                ++ contains_small_char;
+            }
+            else if (isUpper(str[i] )) 
+            {
+                ++ contains_big_char;
+            }
+            else if (! isspace(str[i]) )
+            {
+                ++ contains_special_char;
+            }
+        } 
         else 
         {
-            if (str[i] != '<') 
+            if(passwd.size())
             {
-                passwd += str[i];
-                if (isDigit(str[i] )) 
-                {
-                   ++ contains_number;
-                }
-                else if (isLower(str[i] )) 
-                {
-                    ++ contains_small_char;
-                }
-                else if (isUpper(str[i] )) 
-                {
-                    ++ contains_big_char;
-                }
-                else if (! isspace(str[i]) )
-                {
-                   ++ contains_special_char;
-                }
-            } 
-            else 
-            {
-                if(passwd.size())
-                {
-                    passwd.pop_back();
-                }
+                passwd.pop_back();
             }
         }
     }
+    if (contains_number && contains_small_char && contains_big_char && contains_special_char && passwd.size() >= 7) 
+    {
+        cout << passwd + ",true\n";
+    }
+    else 
+    {
+        cout << passwd + ",false\n";
+    }
 }
- 
+
 int main()
 {
     string str;
-    getline(cin, str);
+    getline(cin, str, '\n');
     handle(str);
- 
+
     return 0;
 }

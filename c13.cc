@@ -47,6 +47,7 @@ int main()
         {
             if (nums[i] == m) 
             {
+                //若幸运值为0，原地不动
                 if (nums[i] > 0) 
                 {
                     start_pos += nums[i] + 1;

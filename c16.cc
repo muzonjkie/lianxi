@@ -1,7 +1,3 @@
-#include<stdio.h>						
-#include<stdlib.h>
-#include<stdbool.h>
-#include<math.h>
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -54,9 +50,9 @@ BiTree* BST_Insert(BiTree* T, vector<int> array_)
         ++i;
     }
     
-    BiTree *p = T, *s = nullptr, *q = nullptr; 
     for(; i < array_.size(); ++i)
     {
+        BiTree *p = T, *s = nullptr, *q = nullptr; 
         s = (BiTree*)malloc( sizeof(BiTree) );
         s->lchild = nullptr;
         s->mchild = nullptr;
@@ -94,9 +90,6 @@ BiTree* BST_Insert(BiTree* T, vector<int> array_)
         {
             q->mchild = s;
         }
-
-       //next time 
-        p = T;
     }
     return T; 				//只有全部建立成功此树根节点才返回 
 } 
@@ -112,7 +105,7 @@ int Bidepth(BiTree* T)
     {
         queue<BiTree*> queue_;
 		BiTree* last = T;
-        int level=0;
+        int level = 0;
         queue_.push(T);
 		while(queue_.size())
         {

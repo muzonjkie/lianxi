@@ -1,9 +1,7 @@
-#include<iostream>
+#include <iostream>
 #include <sstream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
+#include <vector>
+#include <algorithm>
 using namespace std;
  
 
@@ -46,8 +44,7 @@ bool split_str(string params_str, const string & find_, int level) {
 int main()
 {
     int count;
-    cin >> count;
-    cin >> std::ws;
+    cin >> count >> std::ws;
  
     //每个层级上对应字符串的出现次数
     vector<string> all_log;
@@ -58,13 +55,6 @@ int main()
         getline(cin, temp, '\n');
         all_log.push_back(temp);
     }
-
-    /* cout << "\n"; */
-    /* for(auto & i : all_log) */
-    /* { */
-    /*     cout << i << "\n"; */
-    /* } */
-    /* cout << "\n"; */
 
     int level;
     string find_log;

@@ -2,29 +2,20 @@
 #include<vector>
 #include<stdlib.h>
 #include<algorithm>
-#include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
 #include<climits>
 #include<ctype.h>
 #include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
 using namespace std;
  
 
  
-vector<string> split_str(string params_str) {
+vector<string> split_str(string params_str, string delim)
+{
     vector<string> p;
     //能找到，不是end()
-    while (params_str.find(",") != string::npos) {
-        size_t found = params_str.find(",");
+    while (params_str.find(delim) != string::npos)
+    {
+        size_t found = params_str.find(delim);
         p.push_back(params_str.substr(0, found));
         params_str = params_str.substr(found + 1);
     }    
@@ -34,40 +25,52 @@ vector<string> split_str(string params_str) {
  
  
 vector<string> cells;
-bool change(string cur_str, size_t index){
-    size_t result1 = cur_str.find("<");
-    size_t result2 = cur_str.find(">");
+bool change(string cur_str, size_t index)
+{
+    int result1 = cur_str.find("<");
+    int result2 = cur_str.find(">");
  
     //还要count一下有几个大小于号
-    if (result1==-1 && result2==-1){
+    if (result1 == -1 && result2 == -1)
+    {
         return true;
-    } else if (result1==-1 || result2==-1){
+    }
+    else if (result1== -1 || result2== -1)
+    {
         //异常
         return false;
-    } else if (result1 > result2 || result2-result1 != 2){
+    }
+    else if (result1 > result2 || result2 - result1 != 2)
+    {
         //异常
         return false;
-    } else {
-        char target_pos = cur_str.substr(result1+1, result2)[0];
+    }
+    else 
+    {
+        //该引用字符
+        char target_pos = cur_str.substr(result1 + 1, result2)[0];
         //是第几个单元格的
-        char cur_pos = index+'A';
-        if(!(target_pos <= 'A' || target_pos >= 'Z')){
+        char cur_pos = index + 'A';
+        if(!(target_pos <= 'A' || target_pos >= 'Z'))
+        {
             //异常
             return false;
         }
-        if(cur_pos==target_pos){
+        if(cur_pos == target_pos)
+        {
             //异常,自身引用
             return false;
         }
         //嵌套引用
-        size_t target_index = target_pos-'A';
-        if (!change(cells[target_index], target_index)){
+        size_t target_index = target_pos - 'A';
+        if (! change(cells[target_index], target_index))
+        {
             return false;
         }
         string temp_result = "";
         temp_result += cur_str.substr(0, result1);
         temp_result += cells[target_index];
-        temp_result += cur_str.substr(result2+1);
+        temp_result += cur_str.substr(result2 + 1);
         cells[index] = temp_result;
     }
     return true;
@@ -77,20 +80,25 @@ int main()
 {
     string input_str;
     getline(cin, input_str);
-    cells = split_str(input_str);
+    cells = split_str(input_str, ",");
  
-    for(size_t i=0;i<cells.size();i++){
-        if(!change(cells[i], i)){
-            cout<<"-1";
+    for(size_t i = 0; i < cells.size(); ++i)
+    {
+        if(! change(cells[i], i))
+        {
+            cout << "-1\n";
             return 0;
         }
     }
-    for(size_t i=0;i<cells.size();i++){
-        cout<<cells[i];
-        if(i!=cells.size()-1){
-            cout<<",";
+    for(size_t i = 0; i < cells.size(); ++i)
+    {
+        cout << cells[i];
+        if(i != cells.size() - 1)
+        {
+            cout << ",";
         }
     }
+    cout << "\n";
  
     return 0;
 }

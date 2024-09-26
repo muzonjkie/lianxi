@@ -1,29 +1,16 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
-#include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
+#include <iostream>
+#include <vector>
+#include <sstream>
 using namespace std;
  
 
- vector<int> split(string params_str) {
+ vector<int> split(string params_str) 
+{
     vector<int> p;
     istringstream iss(params_str);
-    int out = 0;
-    while (iss >> out) {
+    int out;
+    while (iss >> out)
+    {
         p.push_back(out);
     }    
     return p;
@@ -34,7 +21,7 @@ using namespace std;
 int main()
 {
     string input_str;
-    getline(cin, input_str);
+    getline(cin, input_str, '\n');
     vector<int> tmp = split(input_str);
 
     vector<int> res;
@@ -48,7 +35,7 @@ int main()
             index %= tmp.size();
         }
         //仅转一圈
-        for(; index != i;)
+        for(; index < i;)
         {
             if(tmp[i] > tmp[index])
             {

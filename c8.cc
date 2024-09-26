@@ -18,8 +18,7 @@ typedef struct {
 }graph;						//图的结构体 
 
 
-void GraphCreat(graph*g,int edge[][10]);
-void PrintfWeight(graph*g);
+void GraphCreat(graph* g);
 stack<pair<int, int>> DFS(graph* g, int x, int y);
 
 int main()
@@ -30,20 +29,8 @@ int main()
     istringstream is(row);
     is >> g.x >> g.y;
 
-    //这里是因为列数必须是常量值
-    int(* edge)[10] = (int(*)[10])calloc(g.x, 10 * sizeof(int));
-    for(int i = 0; i < g.x; ++i)
-    {
-        string line;
-        getline(cin, line);
-        istringstream iss(line);
-        for(int j = 0; j < g.y; ++j)
-        {
-            iss >> edge[i][j]; 
-        }
-    }
 
-    GraphCreat(&g, edge);
+    GraphCreat(&g);
 
     vector<stack<pair<int, int>>> real_res;
     size_t max = 0;
@@ -86,17 +73,20 @@ int main()
         ++pos;
     }
 
-    delete [] edge;
     return 0;
 }
 
 
-void GraphCreat(graph* g, int edge[][10]) {
-    int i, j;
-    for (i = 1; i <= g->x; ++i) {
-        for (j = 1; j <= g->y; ++j) {			//零号不用，习惯。不懂  
-            g->edges[i][j] = edge[i - 1][j - 1];
-        }		//注意数组是从零开始的 
+void GraphCreat(graph* g) 
+{
+    int temp;
+    for (int i = 1; i <= g->x; ++i) 
+    {
+        for (int j = 1; j <= g->y; ++j)
+        {			
+            cin >> temp;
+            g->edges[i][j] = temp;
+        }		
     }
 }
 
@@ -254,5 +244,57 @@ keep:
     return path_;
 }
 
+//这就要求初始的上下分别设值进行
+int result = 0;
+
+void dfs(graph* g, int y, int x, int len, int direction, vector< vector<int> > visited)
+{
+    visited[y][x] = true;
+    result = max(result, len);
+    if(x + 1 <= g->x && visited[y][x+1] != true)
+    {
+        if(g->edges[y][x+1] > g->edges[y][x] && direction == 0)
+        {
+            dfs(g, y, x+1, len+1, 1, visited);
+        }
+        if(g->edges[y][x+1] < g->edges[y][x] && direction == 1)
+        {
+            dfs(g, y, x+1, len+1, 0, visited);
+        }
+    }
+    if(x - 1 >= 0 && visited[y][x-1] != true)
+    {
+        if(g->edges[y][x-1] > g->edges[y][x] && direction == 0)
+        {
+            dfs(g, y, x-1, len+1, 1, visited);
+        }
+        if(g->edges[y][x-1] < g->edges[y][x] && direction == 1)
+        {
+            dfs(g, y, x-1, len+1, 0, visited);
+        }
+    }
+    if(y + 1 <= g->y && visited[y+1][x] != true)
+    {
+        if(g->edges[y+1][x] > g->edges[y][x] && direction == 0)
+        {
+            dfs(g, y+1, x, len+1, 1, visited);
+        }
+        if(g->edges[y+1][x] < g->edges[y][x] && direction == 1)
+        {
+            dfs(g, y+1, x, len+1, 0, visited);
+        }
+    }
+    if(y - 1 >= 0 && visited[y-1][x] != true)
+    {
+        if(g->edges[y-1][x] > g->edges[y][x] && direction == 0)
+        {
+            dfs(g, y-1, x, len+1, 1, visited);
+        }
+        if(g->edges[y-1][x] < g->edges[y][x] && direction == 1)
+        {
+            dfs(g, y-1, x, len+1, 0, visited);
+        }
+    }
+}
 
 

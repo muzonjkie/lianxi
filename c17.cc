@@ -1,6 +1,5 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
+#include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -8,9 +7,11 @@ using namespace std;
 int main()
 {
     int k,n,m;
-    try {
+    try 
+    {
         cin >> k >> n >> m;
-        if(k <= 0 || n <= 0 || m <= 1 || n >= m){
+        if(k <= 0 || n <= 0 || m <= 1 || n >= m)
+        {
             cout << "非法0\n";
             return 0;
         }

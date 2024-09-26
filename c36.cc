@@ -1,8 +1,8 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
 using namespace std;
  
 
@@ -65,7 +65,7 @@ int main()
     long result = 0;
     for(int i = 0; i < n; ++i)
     {
-        //开始第一块吃i
+        //吃货开始第一块吃i
         long target = backtrace(i, nums, n);
         if(target + nums[i] > result)
         {

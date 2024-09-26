@@ -1,10 +1,6 @@
-#include<iostream>
-#include<utility>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
  
   
@@ -23,10 +19,12 @@ int main()
     int k;
     cin >> k;
  
+    //跳到本下标的最大得分；初始为该点的分数操作
     vector<int> dp = nums;
     
     for(int i = 0; i < n; ++i)
     {
+        //每次跳1~k距离
         for(int j = 1; j <= k; ++j)
         {
             if(i - j >= 0)

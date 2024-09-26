@@ -17,9 +17,10 @@ pair<long, vector<int>> maximizeProfit(int length) {
     //保存长度为下标时的切法
     
     //当长度为i时
-    for (int i = 1; i <= length; ++i) {
+    //这里开始才有意义
+    for (int i = 5; i <= length; ++i) {
         //前面的最优切法能否
-        for (int j = 1; j < i; ++j) 
+        for (int j = 2; j < i; ++j) 
         {
             //前面的最优切法跟当前增加的长度
             if (dp[i] < dp[j] * (i - j)) 
