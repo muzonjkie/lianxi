@@ -1,11 +1,10 @@
-#include<iostream>
-#include <utility>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
-#include<climits>
-#include<stack>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
+#include <climits>
+#include <stack>
 using namespace std;
  
  
@@ -66,15 +65,13 @@ int lcm(int a, int b)
 } 
  
  
-
-
-
 int main()
 {
     string str;
     getline(cin, str, '\n');
 
     string current = "";
+    //优先级，操作符
     stack< pair<int, char> > operation;
     for(size_t i = 0; i < str.size(); ++i)
     {

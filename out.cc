@@ -15,8 +15,6 @@ public:
 	}
 	void genSubsets(vector<int> & nums, size_t start, vector< vector<int> > & subs) 
     {
-        //若原始数组不包含重复元素，那全排列就很OK
-        //但是若存在重复元素，就会出现一模一样的全排列，若不想要，则去重
 		if (start == nums.size())
         {
             bool flag = true;

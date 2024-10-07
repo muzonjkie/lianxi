@@ -8,6 +8,8 @@ using namespace std;
  
   
  
+//这是错的
+//错错错，是我的错，是我……………………
 int main()
 {
     vector<int> nums;

@@ -3,17 +3,9 @@
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
 #include<map>
 #include<cmath>
-#include<unordered_map>
-#include<set>
 #include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
 using namespace std;
  
 
@@ -50,6 +42,7 @@ int main() {
     {
         if (j < days.size() && i == days[j])
         { 
+            //今天买票和多少天前买的某种票价格更低
             dp[i] = min(dp[i], dp[max(0, i - 1)] + costs[0]);
             dp[i] = min(dp[i], dp[max(0, i - 3)] + costs[1]);
             dp[i] = min(dp[i], dp[max(0, i - 7)] + costs[2]);
@@ -57,6 +50,7 @@ int main() {
             dp[i] = min(dp[i], dp[max(0, i - 30)] + costs[3]);
             j += 1;
         }
+        //不是出行的那天就把前些天的花费传递到当前天
         else 
         {
             dp[i] = dp[i - 1];

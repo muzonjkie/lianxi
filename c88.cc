@@ -29,6 +29,7 @@ int main()
     int count = 0;
     while(iss2 >> temp)
     {
+        //第i组
         relations[i].push_back(temp);
         ++count;
         if(count == 3)

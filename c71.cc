@@ -113,7 +113,7 @@ int main()
                         if(relation[i][j] == now)
                         {
                             relation[i].erase( relation[i].begin() + j );
-                            //擦除该依赖关系后没依赖关系了，进二栈
+                            //擦除该依赖关系后没依赖关系了，进一栈
                             if(! relation[i].size())
                             {
                                 stack_1.push_back(i);
@@ -138,6 +138,9 @@ int main()
             char temp = print[i] + 'A';
             string tmp(1, temp);
             output_str += tmp + " ";
+
+            /* output_str += temp; */
+            /* output_str += " "; */
         }
 
         output_str = output_str.substr(0, output_str.size() - 1);

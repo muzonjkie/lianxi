@@ -1,22 +1,12 @@
 #include<iostream>
-#include <utility>
 #include<vector>
-#include<stdlib.h>
 #include<algorithm>
-#include<string.h>
-#include<exception> 
 #include<map>
 #include<cmath>
-#include<unordered_map>
-#include<numeric>
 #include<set>
 #include<climits>
 #include<ctype.h>
 #include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
 using namespace std;
  
 vector<int> split(string params_str, string split_char) {
@@ -30,17 +20,7 @@ vector<int> split(string params_str, string split_char) {
     return p;
 }
  
-vector<string> split_str(string params_str, string split_char) {
-    vector<string> p;
-    while (params_str.find(split_char) != string::npos) {
-        int found = params_str.find(split_char);
-        p.push_back(params_str.substr(0, found));
-        params_str = params_str.substr(found + 1);
-    }    
-    p.push_back(params_str);
-    return p;
-}  
- 
+
 bool check(vector<int> cur_map, vector<int> target_map) {
     for(int i=0;i<1000;i++){
         if (cur_map[i] < target_map[i]) {

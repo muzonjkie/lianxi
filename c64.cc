@@ -40,46 +40,5 @@ int main() {
 
     cout << dp[M - 1] << "\n";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //double result = 0;
-    //int i = 0;
-    //while(true)
-    //{
-    //    if(i >= M)
-    //    {
-    //        cout << result;
-    //        break;
-    //    } 
-    //    else
-    //    {
-    //        if (i == 0)
-    //        {
-    //            result = N / cars[i];
-    //        }
-    //        else if(result <= N / cars[i] + 1)
-    //        {
-    //            result = N / cars[i];
-    //        }
-    //        else
-    //        {
-    //            result = result - 1;
-    //        }
-    //    }
-    //    i += 1;
-    //}
- 
 	return 0;
 }

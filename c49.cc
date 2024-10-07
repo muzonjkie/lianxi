@@ -16,6 +16,7 @@ bool comp(const pair<bool, string> & lhs, const pair<bool, string> & rhs)
     return lhs.second < rhs.second;
 }
 
+//因为是方阵，所以未出错
 pair< bool, string > dfs(int x, int y, int index, vector<int> nums, vector< vector<int> > martix, vector< vector<int> > visited) 
 {
     if (visited[x][y] == 1) 

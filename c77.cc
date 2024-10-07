@@ -3,17 +3,8 @@
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
-#include<map>
 #include<cmath>
-#include<unordered_map>
 #include<set>
-#include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
 using namespace std;
  
 

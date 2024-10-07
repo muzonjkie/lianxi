@@ -18,11 +18,12 @@ int main()
     // 用一个数组保存所有的节点，数组每一位的值，代表对应位置启动时间
     //-1表示未激活
     vector<int> engines(N, -1);
+    //要启动早的在前面
     set< pair<int, int> > action;
  
     for (int i = 0; i < E; ++i) 
     {
-        // 更新对应发动机的启动时间
+        //更新对应发动机的启动时间
         int engi, start_time;
         cin >> start_time >> engi;
         action.insert({start_time, engi});

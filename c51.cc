@@ -4,19 +4,8 @@
 #include<stdlib.h>
 #include<algorithm>
 #include<string.h>
-#include<exception> 
 #include<map>
 #include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
-#include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
-#include <regex>
 using namespace std;
  
 vector<int> split(string params_str) {
@@ -52,6 +41,7 @@ int main()
     //now即为中间的k
     for(size_t now = 1; now < nums.size() - 1; ++now)
     {
+        //比其序号小等级高或低的
         for(size_t left = 0; left < now; ++left)
         {
             if(nums[left] < nums[now])
@@ -63,6 +53,7 @@ int main()
                 ++ compare_count[now][1];
             }
         }
+        //比其序号大等级高或低的
         for(size_t right = nums.size() - 1; right > now; --right)
         {
             if(nums[right] > nums[now])

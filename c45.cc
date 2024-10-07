@@ -17,6 +17,7 @@ bool comp(const pair<int, int> & lhs, const pair<int, int> & rhs)
 }
   
  
+//注意好行列不等时这里就错了，应修改行列
 pair<int, int> dfs(vector< vector<int> > lights, int timePerRoad, int x, int y, int endx, int endy, vector< vector<int> >  visited) 
 {
     if (visited[y][x] == 1) 

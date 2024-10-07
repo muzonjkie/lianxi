@@ -81,7 +81,7 @@ int main()
                 //需调度
                 if (total_value + file_size > total_size)
                 { 
-                    //辅助
+                    //辅助，方便找到最不活跃的
                     vector< pair<string, vector<int>> > list_;
                     for (auto x : files) {
                         list_.push_back(x);
@@ -116,6 +116,7 @@ int main()
     } 
     else
     {
+        //按字典顺序排
         set<string> list_;
         for (auto & x : files) 
         {

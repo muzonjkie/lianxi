@@ -25,6 +25,7 @@ int main()
         nums.push_back(temp);
     }
     vector<int> stack_;
+    //待入栈数据若还有
     while(nums.size())
     {
         int temp = nums.front();

@@ -29,7 +29,7 @@ pair<bool, int> dfs(int y, int x, int endy, int endx, vector< vector<int> > mart
         //走到终点
         return {true, 0};
     }
-    //是否有效；四个方向
+    //是否有效；三个方向
     vector< pair<bool, int> > result(3, {false, 0 });
     visited[y][x] = 1;
     if(x + 1 < (int)visited[0].size())
@@ -37,7 +37,6 @@ pair<bool, int> dfs(int y, int x, int endy, int endx, vector< vector<int> > mart
         pair<bool, int> temp;
         temp = dfs(y, x + 1, endy, endx, martix, visited);
         result[0].first = temp.first;
-        //线路上最低的信号
         result[0].second += temp.second;
     }
     if(y + 1 < (int)visited.size())
@@ -45,7 +44,6 @@ pair<bool, int> dfs(int y, int x, int endy, int endx, vector< vector<int> > mart
         pair<bool, int> temp;
         temp = dfs(y + 1, x, endy, endx, martix, visited);
         result[1].first = temp.first;
-        //线路上最低的信号
         result[1].second += temp.second;
     }
     if(x + 1 < (int)visited[0].size() && y + 1 < (int)visited.size() && martix[y + 1][x + 1] == 1)
@@ -53,7 +51,6 @@ pair<bool, int> dfs(int y, int x, int endy, int endx, vector< vector<int> > mart
         pair<bool, int> temp;
         temp = dfs(y + 1, x + 1, endy, endx, martix, visited);
         result[2].first = temp.first;
-        //线路上最低的信号
         result[2].second += temp.second;
     }
 

@@ -17,6 +17,8 @@ int findTheLongestSubstring(string s)
 {
     bitset<3> pattern;
     vector< vector<int> > dp(8, vector<int>());
+    //长度为0的即未加入字符，方便计算长度
+    //若为其他值的，说明已加入字符，则两个之间直接减就得长度了
     dp[0].push_back(-1);
     int res = 0;
     for (size_t i = 0; i < s.size(); ++i)

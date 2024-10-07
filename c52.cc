@@ -27,6 +27,7 @@ int main()
     else
     {
         size_t result = 0;
+        //要删除的位置
         int index = 0;
         size_t erase_ = 0;
         while(surplus != nums.size() - erase_)

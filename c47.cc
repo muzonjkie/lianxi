@@ -17,7 +17,7 @@ bool comp(const pair<bool, pair<int, int> > & lhs, const pair<bool, pair<int, in
 }
   
  
-pair< bool, pair<int, int> > dfs(vector< vector<int> > cell, int x, int y, int endx, int endy, vector< vector<int> >  visited) 
+pair< bool, pair<int, int> > dfs(vector< vector<int> > cell, int y, int x, int endy, int endx, vector< vector<int> >  visited) 
 {
     if (visited[y][x] == 1) 
     {
@@ -36,31 +36,31 @@ pair< bool, pair<int, int> > dfs(vector< vector<int> > cell, int x, int y, int e
     if(x + 1 < (int)visited[0].size() && cell[y][x+1] != -1)
     {
         pair<bool, pair<int, int> > temp;
-        temp = dfs(cell, x + 1, y, endx, endy, visited);
+        temp = dfs(cell, y, x+1, endy, endx, visited);
         result[0].second.first += temp.second.first;
         result[0].second.second += temp.second.second;
         result[0].first = temp.first;
     }
-    if(x - 1 >= 0 && cell[y][x+1] != -1)
+    if(x - 1 >= 0 && cell[y][x-1] != -1)
     {
         pair<bool, pair<int, int> > temp;
-        temp = dfs(cell, x - 1, y, endx, endy, visited);
+        temp = dfs(cell, y, x-1, endy, endx, visited);
         result[1].second.first += temp.second.first;
         result[1].second.second += temp.second.second;
         result[1].first = temp.first;
     }
-    if(y + 1 < (int)visited.size() && cell[y][x+1] != -1)
+    if(y + 1 < (int)visited.size() && cell[y+1][x] != -1)
     {
         pair<bool, pair<int, int> > temp;
-        temp = dfs(cell, x, y + 1, endx, endy, visited);
+        temp = dfs(cell, y+1, x, endy, endx, visited);
         result[2].second.first += temp.second.first;
         result[2].second.second += temp.second.second;
         result[2].first = temp.first;
     }
-    if(y - 1 >= 0 && cell[y][x+1] != -1)
+    if(y - 1 >= 0 && cell[y-1][x] != -1)
     {
         pair<bool, pair<int, int> > temp;
-        temp = dfs(cell, x , y - 1, endx, endy, visited);
+        temp = dfs(cell, y-1 , x, endy, endx, visited);
         result[3].second.first += temp.second.first;
         result[3].second.second += temp.second.second;
         result[3].first = temp.first;
@@ -114,7 +114,7 @@ int main()
         }
     }
     vector< vector<int> > visited(n, vector<int>(n, 0));
-    pair<bool, pair<int, int> > res = dfs(cell, startx, starty, endx, endy, visited);
+    pair<bool, pair<int, int> > res = dfs(cell, starty, startx, endy, endx, visited);
     if(res.first)
     {
         cout << res.first << " 路径长度：" << res.second.first << " 得到糖果：" << res.second.second + 3 << "\n";

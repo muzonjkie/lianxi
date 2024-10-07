@@ -44,6 +44,7 @@ int main()
     for(size_t i = 0; i < mans.size(); ++i)
     {
         vector<int> res = BFS(&g, mans[i]);
+        //同时也是去重
         for(size_t j = 0; j < res.size(); ++j)
         {
             result.insert(res[j]);

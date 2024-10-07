@@ -42,7 +42,7 @@ int main() {
         //放进一个球
         arr[right] = nums[i];
         ++ right;
-        //有球
+        //有球；放一次尝试拿一次
         while (left < right)
         {
             //优先左边取当只有一个符合的时候
@@ -60,6 +60,7 @@ int main() {
                 target_pos += 1;
                 continue;
             } 
+            //每次来球，若能拿一个再试试拿下一个，一个都拿不了到这
             break;
         }
         ++i;
