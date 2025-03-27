@@ -129,7 +129,7 @@ keep:
         }
         else
         {
-            if(stack_.size()> path_.size())
+            if(stack_.size() > path_.size())
             {
                 //保存最长路径
                 path_ = stack_;

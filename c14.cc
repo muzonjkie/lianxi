@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include <queue>
+#include <string.h>
 #include <utility>
 #include <algorithm>
 

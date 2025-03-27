@@ -66,6 +66,7 @@ int dfs(int x, int y, int m, int n, int k, vector<vector<int>>& visited)
         result += dfs(x, y-1, m,n,k,visited);
     }
  
+    //应该错了，应该是四个方向的dfs结果比较后选择较长的那条路径才是结果
     return result;
 }
  

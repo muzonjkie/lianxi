@@ -1,25 +1,31 @@
-#include<iostream>
-#include<vector>
-#include<stdlib.h>
-#include<algorithm>
-#include<string.h>
-#include<exception> 
-#include<map>
-#include<cmath>
-#include<unordered_map>
-#include<numeric>
-#include<set>
-#include<climits>
-#include<ctype.h>
-#include<queue>
-#include<stack>
-#include<list>
-#include<bitset>
+#include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+#include <string.h>
+#include <exception> 
+#include <map>
+#include <cmath>
+#include <unordered_map>
+#include <numeric>
+#include <set>
+#include <climits>
+#include <ctype.h>
+#include <queue>
+#include <stack>
+#include <list>
+#include <bitset>
+
+
 using namespace std;
+
+
  
-vector<int> split(string params_str) {
+vector<int> split(string params_str) 
+{
     vector<int> p;
-    while (params_str.find(" ") != string::npos) {
+    while (params_str.find(" ") != string::npos) 
+    {
         int found = params_str.find(" ");
         p.push_back(stoi(params_str.substr(0, found)));
         params_str = params_str.substr(found + 1);

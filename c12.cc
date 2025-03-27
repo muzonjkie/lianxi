@@ -32,7 +32,7 @@ int main()
             int total_b_weight = wt - count * wa;
             if(total_b_weight % wb == 0)
             {
-                result = max(result, count*pa + pb*(total_b_weight/wb));
+                result = max(result, count * pa + pb * (total_b_weight / wb) );
             }
         }
         count +=1;

@@ -34,8 +34,6 @@ int main()
     graph g;
     //n即为客户数量，是这里的v；m是客户与客户间拥有有限距离的数量，是这里的e
     cin >> g.v >> g.e;
-    //unsigned设为-1即可获得最大值
-    memset(g.edges, -1, sizeof(g.edges));
     GraphCreat(&g); 
     printf("--------\n");
     Floyd(&g);
@@ -100,7 +98,6 @@ void Floyd(graph* g)
         {			
             //初始化权值路径表；节点前驱表 
             dist[i][j] = g->edges[i][j];			
-            //初始每点前驱皆为自身 
         }				
     }		
 
